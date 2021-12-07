@@ -102,7 +102,6 @@ vnoremap <c-h> <left>
 vnoremap <c-l> <right>
 "nnoremap <Leader>f yiw:Ag <c-r>"<CR>
 "nnoremap <Leader>F yiw:Ag <c-r>"<CR>
-nnoremap <Leader>b yiw ?<c-r>"<CR>
 " Следующие две команды должны скопиравать html тег и вставить его
 " закрывающую версию на новой строке
 nnoremap <Leader>n <Esc>yi<
@@ -141,7 +140,7 @@ nmap <C-Right> :vertical resize -1<CR>
 " Следующие строки ребайндяд комбинации клавиш установленные плагинами
 map <Leader>/ <plug>NERDCommenterInvert
 "nmap <Leader>t :TagbarToggle<CR>
-"nmap <Leader>b :Buffers<CR>
+nmap <Leader>b :Buffers<CR>
 
 let g:delimitMate_expand_cr = 2
 let g:delimitMate_expand_space = 1
