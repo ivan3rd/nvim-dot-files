@@ -85,6 +85,7 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'hoob3rt/lualine.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'folke/which-key.nvim'
+Plug 'unblevable/quick-scope'
 
 call plug#end()
 
@@ -111,8 +112,19 @@ nnoremap <Leader>o :pu_<CR>
 " Следующие две команды дают переключение между вкладками vim
 map <F5> :tabp <CR>
 map <F6> :tabn <CR>
-nnoremap <S-l> :bnext<CR>
-nnoremap <S-h> :bprev<CR>
+"nnoremap <S-l> :bnext<CR>
+"nnoremap <S-h> :bprev<CR>
+nnoremap <silent> b< :BufferMovePrevious<CR>
+nnoremap <silent> b> :BufferMoveNext<CR>
+nnoremap <silent> <Leader>bj :BufferPick<CR>
+nnoremap <silent> <Leader>bsn :BufferOrderByBufferNumber<CR>
+nnoremap <silent> <Leader>bsd :BufferOrderByDirectory<CR>
+nnoremap <silent> <Leader>bsl :BufferOrderByLanguage<CR>
+nnoremap <silent> <Leader>bsw :BufferOrderByWindowNumber<CR>
+nnoremap <silent> <S-l> :BufferNext<CR>
+nnoremap <silent> <S-h> :BufferPrevious<CR>
+nnoremap <silent> <Leader>c :BufferClose<CR>
+nnoremap <silent> <Leader>q :q<CR>
 " closing  windows
 nmap za :w \| source ~/.config/nvim/init.vim<CR>
 
@@ -137,10 +149,22 @@ nmap <C-Right> :vertical resize -1<CR>
 "nmap <leader><Left> :wincmd h<CR>
 "nmap <leader><Right> :wincmd l<CR>
 
+" QuickScope
+" Trigger a highlight in the appropriate direction when pressing these keys:
+let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
+
+" Trigger a highlight only when pressing f and F.
+let g:qs_highlight_on_keys = ['f', 'F']
+augroup qs_colors
+  autocmd!
+  autocmd ColorScheme * highlight QuickScopePrimary guifg='#afff5f' gui=underline ctermfg=155 cterm=underline
+  autocmd ColorScheme * highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=underline
+augroup END
+
 " Следующие строки ребайндяд комбинации клавиш установленные плагинами
 map <Leader>/ <plug>NERDCommenterInvert
 "nmap <Leader>t :TagbarToggle<CR>
-nmap <Leader>b :Buffers<CR>
+"nmap <Leader>b :Buffers<CR>
 
 let g:delimitMate_expand_cr = 2
 let g:delimitMate_expand_space = 1
@@ -269,58 +293,58 @@ endfunction
 " or the previous buffer (:bp), or a blank buffer if no previous.
 " Command ':Bclose!' is the same, but executes ':bd!' (discard changes).
 " An optional argument can specify which buffer to close (name or number).
-function! s:Bclose(bang, buffer)
-  if empty(a:buffer)
-    let btarget = bufnr('%')
-  elseif a:buffer =~ '^\d\+$'
-    let btarget = bufnr(str2nr(a:buffer))
-  else
-    let btarget = bufnr(a:buffer)
-  endif
-  if btarget < 0
-    call s:Warn('No matching buffer for '.a:buffer)
-    return
-  endif
-  if empty(a:bang) && getbufvar(btarget, '&modified')
-    call s:Warn('No write since last change for buffer '.btarget.' (use :Bclose!)')
-    return
-  endif
-  " Numbers of windows that view target buffer which we will delete.
-  let wnums = filter(range(1, winnr('$')), 'winbufnr(v:val) == btarget')
-  if !g:bclose_multiple && len(wnums) > 1
-    call s:Warn('Buffer is in multiple windows (use ":let bclose_multiple=1")')
-    return
-  endif
-  let wcurrent = winnr()
-  for w in wnums
-    execute w.'wincmd w'
-    let prevbuf = bufnr('#')
-    if prevbuf > 0 && buflisted(prevbuf) && prevbuf != btarget
-      buffer #
-    else
-      bprevious
-    endif
-    if btarget == bufnr('%')
-      " Numbers of listed buffers which are not the target to be deleted.
-      let blisted = filter(range(1, bufnr('$')), 'buflisted(v:val) && v:val != btarget')
-      " Listed, not target, and not displayed.
-      let bhidden = filter(copy(blisted), 'bufwinnr(v:val) < 0')
-      " Take the first buffer, if any (could be more intelligent).
-      let bjump = (bhidden + blisted + [-1])[0]
-      if bjump > 0
-        execute 'buffer '.bjump
-      else
-        execute 'enew'.a:bang
-      endif
-    endif
-  endfor
-  execute 'bdelete'.a:bang.' '.btarget
-  execute wcurrent.'wincmd w'
-endfunction
-command! -bang -complete=buffer -nargs=? Bclose call <SID>Bclose(<q-bang>, <q-args>)
+"function! s:Bclose(bang, buffer)
+  "if empty(a:buffer)
+    "let btarget = bufnr('%')
+  "elseif a:buffer =~ '^\d\+$'
+    "let btarget = bufnr(str2nr(a:buffer))
+  "else
+    "let btarget = bufnr(a:buffer)
+  "endif
+  "if btarget < 0
+    "call s:Warn('No matching buffer for '.a:buffer)
+    "return
+  "endif
+  "if empty(a:bang) && getbufvar(btarget, '&modified')
+    "call s:Warn('No write since last change for buffer '.btarget.' (use :Bclose!)')
+    "return
+  "endif
+   "Numbers of windows that view target buffer which we will delete.
+  "let wnums = filter(range(1, winnr('$')), 'winbufnr(v:val) == btarget')
+  "if !g:bclose_multiple && len(wnums) > 1
+    "call s:Warn('Buffer is in multiple windows (use ":let bclose_multiple=1")')
+    "return
+  "endif
+  "let wcurrent = winnr()
+  "for w in wnums
+    "execute w.'wincmd w'
+    "let prevbuf = bufnr('#')
+    "if prevbuf > 0 && buflisted(prevbuf) && prevbuf != btarget
+      "buffer #
+    "else
+      "bprevious
+    "endif
+    "if btarget == bufnr('%')
+       "Numbers of listed buffers which are not the target to be deleted.
+      "let blisted = filter(range(1, bufnr('$')), 'buflisted(v:val) && v:val != btarget')
+       "Listed, not target, and not displayed.
+      "let bhidden = filter(copy(blisted), 'bufwinnr(v:val) < 0')
+       "Take the first buffer, if any (could be more intelligent).
+      "let bjump = (bhidden + blisted + [-1])[0]
+      "if bjump > 0
+        "execute 'buffer '.bjump
+      "else
+        "execute 'enew'.a:bang
+      "endif
+    "endif
+  "endfor
+  "execute 'bdelete'.a:bang.' '.btarget
+  "execute wcurrent.'wincmd w'
+"endfunction
+"command! -bang -complete=buffer -nargs=? Bclose call <SID>Bclose(<q-bang>, <q-args>)
 " close buffers
-nnoremap <silent> <Leader>c :Bclose<CR>
-nnoremap <silent> <Leader>q :q<CR>
+"nnoremap <silent> <Leader>c :Bclose<CR>
+"nnoremap <silent> <Leader>q :q<CR>
 
 
 " next function is needed to remove some of keybindings

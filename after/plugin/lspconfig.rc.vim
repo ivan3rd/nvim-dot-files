@@ -6,6 +6,7 @@ endif
 lua << EOF
 local nvim_lsp = require('lspconfig')
 local protocol = require('vim.lsp.protocol')
+--local util = require('vim.lsp.util')
 
 
 -- Use an on_attach function to only map the following keys
@@ -80,7 +81,11 @@ end
 
 nvim_lsp.tsserver.setup {
   on_attach = on_attach,
-  filetypes = { "typescript", "typescriptreact", "typescript.tsx" }
+  filetypes = { "typescript", "typescriptreact", "typescript.tsx" },
+  init_options = {
+      hostInfo = "neovim"
+  },
+  root_dir = nvim_lsp.util.root_pattern("package.json", "tsconfig.json", "jsconfig.json", ".git")
 }
 
 nvim_lsp.vuels.setup {
@@ -151,7 +156,9 @@ nvim_lsp.pyright.setup {
         analysis = {
           autoSearchPaths = true,
           diagnosticMode = "workspace",
-          useLibraryCodeForTypes = true
+          useLibraryCodeForTypes = true,
+          typeCheckingMode = "basic",
+          venvPath = "./venv"
         }
       }
     }
