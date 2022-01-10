@@ -67,6 +67,6 @@ tnoremap <C-t> <C-\><C-n><Cmd>exe v:count1 . "ToggleTerm direction=horizontal"<C
 tnoremap <Esc> <C-\><C-n>
 tnoremap <C-h> <C-\><C-n><C-W>h
 tnoremap <C-j> <C-\><C-n><C-W>j
-tnoremap <C-k> <C-\><C-n><C-W>k :ToggleTerm<CR>
+tnoremap <C-k> <C-\><C-n><C-W>k
 tnoremap <C-l> <C-\><C-n><C-W>l
 
