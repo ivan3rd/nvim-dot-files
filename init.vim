@@ -76,16 +76,26 @@ Plug 'akinsho/toggleterm.nvim'
 Plug 'tpope/vim-fugitive'
 
 Plug 'neovim/nvim-lspconfig'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-cmdline'
+Plug 'hrsh7th/nvim-cmp'
+
+" For vsnip users.
+Plug 'hrsh7th/cmp-vsnip'
+Plug 'hrsh7th/vim-vsnip'
+
 Plug 'glepnir/lspsaga.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'kyazdani42/nvim-tree.lua'
-Plug 'nvim-lua/completion-nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'hoob3rt/lualine.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'folke/which-key.nvim'
 Plug 'unblevable/quick-scope'
+Plug 'glepnir/dashboard-nvim'
 
 call plug#end()
 
@@ -136,7 +146,7 @@ vmap <Tab> >gv
 vmap <S-Tab> <gv
 " move through split windows
 nmap <C-h> :wincmd h<CR> :NvimTreeClose<CR>
-nmap <C-k> :wincmd k<CR> :ToggleTerm<CR>
+nmap <C-k> :wincmd k<CR>
 nmap <C-j> :wincmd j<CR>
 nmap <C-l> :wincmd l<CR> :NvimTreeClose<CR>
 " resize windows
@@ -193,6 +203,8 @@ let g:switch_custom_definitions = [
 "\    'python': ['black']
 "\   }
 
+" fuzzysearch for dashboard
+let g:dashboard_default_executive ='telescope'
 
 " saving files
 nmap <Leader>s :wa<CR>

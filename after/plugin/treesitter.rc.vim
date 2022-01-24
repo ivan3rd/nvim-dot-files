@@ -7,10 +7,11 @@ lua <<EOF
 require'nvim-treesitter.configs'.setup {
   highlight = {
     enable = true,
-    disable = {"vue"},
+    -- disable = {"vue"},
+    disable = {},
   },
   indent = {
-    enable = false,
+    enable = true,
     disable = {},
   },
   ensure_installed = {
@@ -26,6 +27,7 @@ require'nvim-treesitter.configs'.setup {
     "scss",
     "css",
     "vue",
+    "typescript",
     --"sass",
     "python"
   },
