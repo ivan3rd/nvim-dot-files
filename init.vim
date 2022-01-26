@@ -34,6 +34,9 @@ set fileencoding=utf-8
 set foldmethod=indent
 set foldlevel=99
 set nowrap
+" highlight row and column of cursor
+set cursorline
+set cursorcolumn
 
 syntax on
 
@@ -49,19 +52,7 @@ call plug#begin(stdpath('config') . '/plugged')
 Plug 'gruvbox-community/gruvbox'
 
 Plug 'tpope/vim-sensible'
-"Plug 'dense-analysis/ale'
-"Plug 'junegunn/fzf'
-"Plug 'junegunn/fzf.vim'
-" vue-plugin.
-"Plug 'posva/vim-vue'
-"Plug 'leafOfTree/vim-vue-plugin'
-"Plug 'ap/vim-buftabline' даёт возможность использовать бафферы как табы.
-"Может быть со временем я и стану использовать бафферы чаще чем табы, а пока
-"нет
-"Plug 'preservim/nerdtree'
 Plug 'preservim/nerdcommenter'
-"Plug 'airblade/vim-gitgutter'
-"Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'alvan/vim-closetag'
 Plug 'romgrk/barbar.nvim'
 " У плагина выше ^ не работает почему-то автозакрытие тегов. Может быть
@@ -73,7 +64,11 @@ Plug 'valsorym/.del.vim-tagbar'
 "Plug 'jistr/vim-nerdtree-tabs'
 Plug 'akinsho/toggleterm.nvim'
 "Plug 'lyokha/vim-xkbswitch'
+"Git
 Plug 'tpope/vim-fugitive'
+Plug 'lewis6991/gitsigns.nvim'
+"Plug 'airblade/vim-gitgutter'
+"Plug 'Xuyuanp/nerdtree-git-plugin'
 
 Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/cmp-nvim-lsp'
@@ -96,6 +91,7 @@ Plug 'nvim-telescope/telescope.nvim'
 Plug 'folke/which-key.nvim'
 Plug 'unblevable/quick-scope'
 Plug 'glepnir/dashboard-nvim'
+
 
 call plug#end()
 
