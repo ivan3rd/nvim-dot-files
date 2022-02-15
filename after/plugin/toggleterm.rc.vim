@@ -64,7 +64,7 @@ tnoremap <C-t> <C-\><C-n><Cmd>exe v:count1 . "ToggleTerm direction=horizontal"<C
 "nnoremap <silent><leader>tt <Cmd>exe v:count1 . "ToggleTerm direction=tab"<CR>
 "inoremap <silent><leader>tt <Esc><Cmd>exe v:count1 . "ToggleTerm direction=tab"<CR>
 " terminal mode navigation
-tnoremap <Esc> <C-\><C-n>
+tnoremap <C-q> <C-\><C-n>
 tnoremap <C-h> <C-\><C-n><C-W>h
 tnoremap <C-j> <C-\><C-n><C-W>j
 tnoremap <C-k> <C-\><C-n><C-W>k
