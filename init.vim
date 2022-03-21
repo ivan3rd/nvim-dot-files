@@ -207,6 +207,13 @@ let g:dashboard_default_executive ='telescope'
 " saving files
 nmap <Leader>s :wa<CR>
 
+" Utils commands for working with data
+" Copy full path of file in current buffer
+nnoremap <silent>,/ :let @+ = expand("%:p")<CR>
+" Copy relative path of file in current buffer
+nnoremap <silent>,. :let @+ = expand("%")<CR>
+" Copy only filename
+nnoremap <silent>,, :let @+ = expand("%:t")<CR>
 
 " Вставляем пустые строки в нормальном режиме
 " options for builtin saving sessions
@@ -280,7 +287,6 @@ function ToggleWrap()
         inoremap <buffer> <silent> <End>  <C-o>g<End>
     endif
 endfunction
-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
 " Delete buffer while keeping window layout (don't close buffer's windows).
 " Version 2008-11-18 from http://vim.wikia.com/wiki/VimTip165
 if v:version < 700 || exists('loaded_bclose') || &cp
