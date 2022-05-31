@@ -31,14 +31,15 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
   buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
   buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-  buf_set_keymap('n', '<space>l', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+  buf_set_keymap('n', '<space>l', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
   --buf_set_keymap('n', '<C-j>', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
   buf_set_keymap('n', '<S-C-j>', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
   buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
   buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
 
     -- formatting
-  if client.resolved_capabilities.document_formatting then
+  -- if client.resolved_capabilities.document_formatting then
+  if client.server_capabilities.document_formatting then
     vim.api.nvim_command [[augroup Format]]
     vim.api.nvim_command [[autocmd! * <buffer>]]
     vim.api.nvim_command [[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_seq_sync()]]
@@ -91,60 +92,62 @@ nvim_lsp.tsserver.setup {
 nvim_lsp.vuels.setup {
     on_attach = on_attach,
     filetypes = {"vue"},
-    settings = {
-    vetur = {
-      experimental = {
-        templateInterpolationService = true,
-      },
-      validation = {
-        templateProps = true,
-      },
-      completion = {
-        tagCasing = 'initial',
-        autoImport = true,
-        useScaffoldSnippets = true,
-      },
-    },
-  },
---    init_options = {
---      config = {
---        css = {},
---        sass = {},
---        emmet = {},
---        html = {
---          suggest = {}
---        },
---        javascript = {
---          format = {}
---        },
---        stylusSupremacy = {},
---        typescript = {
---          format = {}
---        },
---        vetur = {
---          completion = {
---            autoImport = false,
---            tagCasing = "kebab",
---            useScaffoldSnippets = false
---          },
---          format = {
---            defaultFormatter = {
---              js = "none",
---              ts = "none"
---            },
---            defaultFormatterOptions = {},
---            scriptInitialIndent = false,
---            styleInitialIndent = false
---          },
---          useWorkspaceDependencies = false,
---          validation = {
---            script = true,
---            style = true,
---            template = true
---          }
---        }
---      }
---    }
+    cmd = {"vls"},
+ --   settings = {
+--   vetur = {
+--     experimental = {
+--       templateInterpolationService = true,
+--     },
+--     validation = {
+--       templateProps = true,
+--     },
+--     completion = {
+--       tagCasing = 'initial',
+--       autoImport = true,
+--       useScaffoldSnippets = true,
+--     },
+--   },
+-- },
+    root_dir = nvim_lsp.util.root_pattern("package.json", "vue.config.js" ),
+    init_options = {
+      config = {
+        css = {},
+        sass = {},
+        emmet = {},
+        html = {
+          suggest = {}
+        },
+        javascript = {
+          format = {}
+        },
+        stylusSupremacy = {},
+        typescript = {
+          format = {}
+        },
+        vetur = {
+          completion = {
+            autoImport = false,
+            tagCasing = "kebab",
+            useScaffoldSnippets = false
+          },
+          format = {
+            defaultFormatter = {
+              js = "none",
+              ts = "none"
+            },
+            defaultFormatterOptions = {},
+            scriptInitialIndent = false,
+            styleInitialIndent = false
+          },
+          useWorkspaceDependencies = false,
+          validation = {
+            script = true,
+            style = true,
+            template = true
+          }
+        }
+      }
+    }
 }
 
 nvim_lsp.pyright.setup {

@@ -87,6 +87,7 @@ Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'kyazdani42/nvim-tree.lua'
 Plug 'nvim-lua/plenary.nvim'
+Plug 'BurntSushi/ripgrep'
 Plug 'hoob3rt/lualine.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'folke/which-key.nvim'
