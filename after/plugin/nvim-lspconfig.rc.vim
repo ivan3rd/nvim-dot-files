@@ -178,7 +178,7 @@ nvim_lsp.pyright.setup{
         analysis = {
           autoSearchPaths = true,
           diagnosticMode = "workspace",
-          useLibraryCodeForTypes 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= true,
+          useLibraryCodeForTypes = true,
           typeCheckingMode = "basic",
           venvPath = "venv" -- Эта опция нихера не работает, проще запускать nvim из venv/bin/activate
         }
