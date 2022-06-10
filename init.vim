@@ -82,7 +82,7 @@ Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/cmp-vsnip'
 Plug 'hrsh7th/vim-vsnip'
 
-Plug 'glepnir/lspsaga.nvim'
+Plug 'glepnir/lspsaga.nvim', { 'branch': 'main' }
 Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'kyazdani42/nvim-tree.lua'
@@ -157,6 +157,10 @@ nmap <C-Right> :vertical resize -1<CR>
 "nmap <leader><Down> :wincmd j<CR>
 "nmap <leader><Left> :wincmd h<CR>
 "nmap <leader><Right> :wincmd l<CR>
+
+" Copy to system clipboard
+nmap <C-c> "*y
+vmap <C-c> "*y
 
 " QuickScope
 " Trigger a highlight in the appropriate direction when pressing these keys:
