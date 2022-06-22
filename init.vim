@@ -144,10 +144,10 @@ imap <S-Tab> <Esc><<i
 vmap <Tab> >gv
 vmap <S-Tab> <gv
 " move through split windows
-nmap <C-h> :wincmd h<CR> :NvimTreeClose<CR>
+nmap <C-h> :wincmd h<CR>
 nmap <C-k> :wincmd k<CR>
 nmap <C-j> :wincmd j<CR>
-nmap <C-l> :wincmd l<CR> :NvimTreeClose<CR>
+nmap <C-l> :wincmd l<CR>
 " resize windows
 nmap <C-Up> :resize +1<CR>
 nmap <C-Down> :resize -1<CR>
