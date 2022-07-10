@@ -1,6 +1,6 @@
 set completeopt=menu,menuone,noselect
 
-lua <<EOF
+lua << EOF
   -- Setup nvim-cmp.
   local cmp = require'cmp'
 

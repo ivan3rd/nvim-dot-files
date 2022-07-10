@@ -116,6 +116,15 @@ vnoremap <c-l> <right>
 nnoremap <Leader>n <Esc>yi<
 nnoremap <Leader>m i</><Esc>lp
 nnoremap <Leader>o :pu_<CR>
+
+" Переключение на русский
+set keymap=russian-jcukenwin
+set iminsert=0 " Чтобы при старте ввод был на английском, а не русском (start > i)
+set imsearch=0 " Чтобы при старте поиск был на английском, а не русском (start > /)
+" Дополнительно можно добавить:
+" inoremap <A-a> <C-^> " Чтобы вместо Ctrl-^ нажимать Ctrl-L
+highlight lCursor guifg=Cyan guibg=Cyan "Смена цвета курсора
+
 "n</oright>/ / map <c-/> p b i / <Esc>
 " Следующие две команды дают переключение между вкладками vim
 "map <F5> :tabp <CR>
