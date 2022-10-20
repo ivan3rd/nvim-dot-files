@@ -186,5 +186,42 @@ nvim_lsp.pyright.setup{
     }
 }
 
+nvim_lsp.clangd.setup{
+    on_attach = on_attach,
+    flags = {
+      -- This will be the default in neovim 0.7+
+      debounce_text_changes = 150,
+    },
+    cmd = { "clangd" },
+    filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
+    root_dir = nvim_lsp.util.root_pattern(
+          '.clangd',
+          '.clang-tidy',
+          '.clang-format',
+          'compile_commands.json',
+          'compile_flags.txt',
+          'configure.ac',
+          '.git'
+    ),
+    single_file_support = true
+}
+
+nvim_lsp.cmake.setup{
+    on_attach = on_attach,
+    flags = {
+      debounce_text_changes = 150,
+    },
+    cmd = { "cmake-language-server" },
+    filetypes = { "cmake" },
+    root_dir = nvim_lsp.util.root_pattern(
+        'CMakePresets.json',
+        'CTestConfig.cmake',
+        '.git',
+        'build',
+        'cmake'
+    ),
+    single_file_support = true
+}
+
 EOF
 

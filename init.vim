@@ -122,7 +122,8 @@ set keymap=russian-jcukenwin
 set iminsert=0 " Чтобы при старте ввод был на английском, а не русском (start > i)
 set imsearch=0 " Чтобы при старте поиск был на английском, а не русском (start > /)
 " Дополнительно можно добавить:
-" inoremap <A-a> <C-^> " Чтобы вместо Ctrl-^ нажимать Ctrl-L
+inoremap <silent><A-a> <C-^>
+" Чтобы вместо Ctrl-^ нажимать Alt-a
 highlight lCursor guifg=Cyan guibg=Cyan "Смена цвета курсора
 
 "n</oright>/ / map <c-/> p b i / <Esc>
@@ -168,8 +169,8 @@ nmap <C-Right> :vertical resize -1<CR>
 "nmap <leader><Right> :wincmd l<CR>
 
 " Copy to system clipboard
-nmap <C-c> "*y
-vmap <C-c> "*y
+nmap <C-c> "+y
+vmap <C-c> "+y
 
 " QuickScope
 " Trigger a highlight in the appropriate direction when pressing these keys:
@@ -278,6 +279,8 @@ function ToggleWrap()
         echo "Wrap OFF"
         setlocal nowrap
         set virtualedit=all
+        noremap  <buffer> <silent> <C-k> :wincmd k<CR>
+        noremap  <buffer> <silent> <C-j> :wincmd j<CR>
         silent! nunmap <buffer> <Up>
         silent! nunmap <buffer> <Down>
         silent! nunmap <buffer> <Home>
