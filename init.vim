@@ -94,6 +94,11 @@ Plug 'folke/which-key.nvim'
 Plug 'unblevable/quick-scope'
 Plug 'glepnir/dashboard-nvim'
 
+Plug 'sakhnik/nvim-gdb', { 'do': ':!./install.sh' } "Дебагер но для GNU?
+
+Plug 'mfussenegger/nvim-dap' "Debuger and breakpoints
+Plug 'rcarriga/nvim-dap-ui' "UI for said debuger
+Plug 'ofirgall/goto-breakpoints.nvim' " Move to breakpoints in code
 
 call plug#end()
 

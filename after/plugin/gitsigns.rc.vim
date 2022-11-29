@@ -8,7 +8,7 @@ require('gitsigns').setup {
         topdelete    = {hl = 'GitSignsDelete', text = '‾', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
         changedelete = {hl = 'GitSignsChange', text = '~', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
     },
-    sign_priority = 999999,
+    sign_priority = 2,
     preview_config = {
         -- Options passed to nvim_open_win
         border = 'single',
