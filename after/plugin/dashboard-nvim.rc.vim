@@ -1,36 +1,38 @@
 
 lua << EOF
---vim.g.indentLine_fileTypeExclude = { 'dashboard' }
-
 local home = os.getenv('HOME')
 local db = require('dashboard')
---db.preview_command = 'cat | lolcat -F 0.3'
---db.preview_file_path = home .. '/.config/nvim/static/neovim.cat'
---db.preview_file_height = 12
---db.preview_file_width = 80
-db.hide_tabline = false
-db.session_directory = '../.nvim_sessions'
-db.custom_center = {
-  {icon = '  ',
-  desc = 'Load latest session                     ',
-  shortcut = 'SPC s l',
-  action ='SessionLoad'},
-  {icon = '  ',
-  desc = 'Recently opened files                   ',
-  action =  'DashboardFindHistory',
-  shortcut = 'SPC f h'},
-  {icon = '  ',
-  desc = 'Find  File                              ',
-  -- action = 'Telescope find_files find_command=rg,--hidden,--files',
-  action = 'Telescope find_files',
-  shortcut = 'SPC f f'},
-  {icon = '  ',
-  desc = 'Find  word                              ',
-  action = 'Telescope live_grep',
-  shortcut = 'SPC f w'},
-  {icon = '  ',
-  desc = 'New file                                ',
-  action = 'enew',
-  shortcut = 'SPC f d'},
-}
+db.setup({
+    theme = 'hyper',
+    disable_move = true,
+    config = {
+      week_header = {
+       enable = true,
+      },
+      shortcut = {
+        { desc = ' Latest Session', group = 'Number', action = ':source ../Session.vim', key = 's' },
+        { desc = '󰊳 Update', group = '@property', action = 'PlugUpdate', key = 'u' },
+        {
+          icon = ' ',
+          icon_hl = '@variable',
+          desc = 'Files',
+          group = 'Label',
+          action = 'Telescope find_files',
+          key = 'f',
+        },
+        -- {
+        --   desc = ' Apps',
+        --   group = 'DiagnosticHint',
+        --   action = 'Telescope app',
+        --   key = 'a',
+        -- },
+        -- {
+        --   desc = ' dotfiles',
+        --   group = 'Number',
+        --   action = 'Telescope dotfiles',
+        --   key = 'd',
+        -- },
+      },
+    },
+})
 EOF

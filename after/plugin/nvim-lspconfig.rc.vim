@@ -30,19 +30,18 @@ local on_attach = function(client, bufnr)
   vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
   vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
   vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
-  --vim.keymap.set('i', '<C-k>', vim.lsp.buf.signature_help, bufopts)
-  vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, bufopts)
-  vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
-  -- vim.keymap.set('n', '<space>wl', function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, bufopts)
+  vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, bufopts) vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
   vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, bufopts)
   vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
   vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
   vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
   vim.keymap.set('n', '<space>l', vim.diagnostic.open_float, bufopts)
-  --vim.keymap.set('n', '<C-j>', vim.lsp.diagnostic.goto_prev, bufopts)
-  vim.keymap.set('n', '<S-C-j>', vim.lsp.diagnostic.goto_next, bufopts)
-  vim.keymap.set('n', '<space>q', vim.lsp.diagnostic.set_loclist, bufopts)
   vim.keymap.set("n", "<space>f", vim.lsp.buf.formatting, bufopts)
+  -- vim.keymap.set('n', '<S-C-j>', vim.lsp.diagnostic.goto_next, bufopts) -- Не работает
+  -- vim.keymap.set('n', '<space>q', vim.lsp.diagnostic.set_loclist, bufopts) -- Не работает
+  ----vim.keymap.set('i', '<C-k>', vim.lsp.buf.signature_help, bufopts)
+  ----vim.keymap.set('n', '<space>wl', function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, bufopts)
+  ----vim.keymap.set('n', '<C-j>', vim.lsp.diagnostic.goto_prev, bufopts)
 
     -- formatting
   -- if client.resolved_capabilities.document_formatting then
@@ -165,26 +164,55 @@ nvim_lsp.vuels.setup {
     }
 }
 
-nvim_lsp.pyright.setup{
-    on_attach = on_attach,
-    flags = {
-      -- This will be the default in neovim 0.7+
-      debounce_text_changes = 150,
-    },
-    cmd = { "pyright-langserver", "--stdio" },
-    filetypes = { "python" },
-    settings = {
-      python = {
-        analysis = {
-          autoSearchPaths = true,
-          diagnosticMode = "workspace",
-          useLibraryCodeForTypes = true,
-          typeCheckingMode = "basic",
-          venvPath = "venv" -- Эта опция нихера не работает, проще запускать nvim из venv/bin/activate
-        }
+nvim_lsp.pylsp.setup{
+  on_attach = on_attach,
+  cmd = { "pylsp" },
+  filetypes = { "python" },
+  single_file_support = false,
+  flags = {
+      debounce_text_changes = 200,
+  },
+  capabilities = capabilities,
+  settings = {
+    pylsp = {
+      plugins = {
+        -- codestyle
+        pycodestyle = {
+          ignore = {'W391', 'E501'},
+          maxLineLength = 80
+        },
+        autopep8 = {enabled = true},
+        -- typing
+        pylsp_mypy = {enabled = true},
+        -- import sorting
+        pyls_isort = { enabled = true },
+        -- auto-completion options
+        jedi_completion = { fuzzy = true }
       }
     }
+  }
 }
+
+-- nvim_lsp.pyright.setup{
+--    on_attach = on_attach,
+--    flags = {
+--      -- This will be the default in neovim 0.7+
+--      debounce_text_changes = 150,
+--    },
+--    cmd = { "pyright-langserver", "--stdio" },
+--    filetypes = { "python" },
+--    settings = {
+--      python = {
+--        analysis = {
+--          autoSearchPaths = true,
+--          diagnosticMode = "workspace",
+--          useLibraryCodeForTypes = true,
+--          typeCheckingMode = "basic",
+--          venvPath = "venv" -- Эта опция нихера не работает, проще запускать nvim из venv/bin/activate
+--        }
+--      }
+--    }
+--}
 
 nvim_lsp.clangd.setup{
     on_attach = on_attach,
@@ -221,6 +249,27 @@ nvim_lsp.cmake.setup{
         'cmake'
     ),
     single_file_support = true
+}
+
+
+nvim_lsp.dartls.setup{
+    on_attach = on_attach,
+    cmd = { "dart", "language-server", "--protocol=lsp" },
+    filetypes = { "dart" },
+    init_options = {
+      closingLabels = true,
+      flutterOutline = true,
+      onlyAnalyzeProjectsWithOpenFiles = true,
+      outline = true,
+      suggestFromUnimportedLibraries = true
+    },
+    root_dir = nvim_lsp.util.root_pattern("pubspec.yaml"),
+    settings = {
+      dart = {
+        completeFunctionCalls = true,
+        showTodos = true
+      }
+    }
 }
 
 EOF
