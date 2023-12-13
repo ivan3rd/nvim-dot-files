@@ -150,8 +150,8 @@ nvim_lsp.vuels.setup {
               ts = "none"
             },
             defaultFormatterOptions = {},
-            scriptInitialIndent = false,
-            styleInitialIndent = false
+            scriptInitialIndent = true,
+            styleInitialIndent = true
           },
           useWorkspaceDependencies = false,
           validation = {
@@ -178,7 +178,7 @@ nvim_lsp.pylsp.setup{
       plugins = {
         -- codestyle
         pycodestyle = {
-          ignore = {'W391', 'E501'},
+          ignore = {'W391', 'E501', 'E116'},
           maxLineLength = 80
         },
         autopep8 = {enabled = true},
@@ -187,7 +187,7 @@ nvim_lsp.pylsp.setup{
         -- import sorting
         pyls_isort = { enabled = true },
         -- auto-completion options
-        jedi_completion = { fuzzy = true }
+        -- jedi_completion = { fuzzy = true }
       }
     }
   }
