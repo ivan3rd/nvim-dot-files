@@ -5,8 +5,6 @@ endif
 lua << EOF
 local nvim_lsp = require('lspconfig')
 local protocol = require('vim.lsp.protocol')
---local util = require('vim.lsp.util')
- -- See `:help vim.diagnostic.*` for documentation on any of the below functions
 local opts = { noremap=true, silent=true }
 vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
@@ -17,11 +15,8 @@ vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 local on_attach = function(client, bufnr)
-  -- local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-  -- local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
   -- Enable completion triggered by <c-x><c-o>
-    -- vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
   -- Mappings.
   local bufopts = { noremap=true, silent=true, buffer=bufnr }
 
@@ -37,22 +32,6 @@ local on_attach = function(client, bufnr)
   vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
   vim.keymap.set('n', '<space>l', vim.diagnostic.open_float, bufopts)
   vim.keymap.set("n", "<space>f", vim.lsp.buf.formatting, bufopts)
-  -- vim.keymap.set('n', '<S-C-j>', vim.lsp.diagnostic.goto_next, bufopts) -- Не работает
-  -- vim.keymap.set('n', '<space>q', vim.lsp.diagnostic.set_loclist, bufopts) -- Не работает
-  ----vim.keymap.set('i', '<C-k>', vim.lsp.buf.signature_help, bufopts)
-  ----vim.keymap.set('n', '<space>wl', function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, bufopts)
-  ----vim.keymap.set('n', '<C-j>', vim.lsp.diagnostic.goto_prev, bufopts)
-
-    -- formatting
-  -- if client.resolved_capabilities.document_formatting then
-  -- if client.server_capabilities.document_formatting then
-  --   vim.api.nvim_command [[augroup Format]]
-  --   vim.api.nvim_command [[autocmd! * <buffer>]]
-  --   vim.api.nvim_command [[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_seq_sync()]]
-  --   vim.api.nvim_command [[augroup END]]
-  -- end
-
-  -- require'completion'.on_attach(client, bufnr)
 
   --protocol.SymbolKind = { }
   --protocol.CompletionItemKind = {
@@ -107,21 +86,6 @@ nvim_lsp.vuels.setup {
     },
     filetypes = {"vue"},
     cmd = {"vls"},
- --   settings = {
---   vetur = {
---     experimental = {
---       templateInterpolationService = true,
---     },
---     validation = {
---       templateProps = true,
---     },
---     completion = {
---       tagCasing = 'initial',
---       autoImport = true,
---       useScaffoldSnippets = true,
---     },
---   },
--- },
     root_dir = nvim_lsp.util.root_pattern("package.json", "vue.config.js" ),
     init_options = {
       config = {
@@ -182,37 +146,13 @@ nvim_lsp.pylsp.setup{
           maxLineLength = 80
         },
         autopep8 = {enabled = true},
-        -- typing
-        pylsp_mypy = {enabled = true},
-        -- import sorting
         pyls_isort = { enabled = true },
-        -- auto-completion options
-        -- jedi_completion = { fuzzy = true }
+        jedi_completion = { fuzzy = false }
       }
     }
   }
 }
 
--- nvim_lsp.pyright.setup{
---    on_attach = on_attach,
---    flags = {
---      -- This will be the default in neovim 0.7+
---      debounce_text_changes = 150,
---    },
---    cmd = { "pyright-langserver", "--stdio" },
---    filetypes = { "python" },
---    settings = {
---      python = {
---        analysis = {
---          autoSearchPaths = true,
---          diagnosticMode = "workspace",
---          useLibraryCodeForTypes = true,
---          typeCheckingMode = "basic",
---          venvPath = "venv" -- Эта опция нихера не работает, проще запускать nvim из venv/bin/activate
---        }
---      }
---    }
---}
 
 nvim_lsp.clangd.setup{
     on_attach = on_attach,

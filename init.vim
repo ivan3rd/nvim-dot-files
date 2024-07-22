@@ -69,7 +69,7 @@ Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/cmp-vsnip'
 Plug 'hrsh7th/vim-vsnip'
 
-Plug 'glepnir/lspsaga.nvim', { 'branch': 'main' }
+Plug 'glepnir/lspsaga.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'kyazdani42/nvim-tree.lua'
@@ -82,12 +82,6 @@ Plug 'unblevable/quick-scope'
 Plug 'nvimdev/dashboard-nvim'
 Plug 'Shatur/neovim-session-manager'
 Plug 'nvim-telescope/telescope-ui-select.nvim'
-
-Plug 'sakhnik/nvim-gdb', { 'do': ':!./install.sh' } "Дебагер но для GNU?
-
-Plug 'mfussenegger/nvim-dap' "Debuger and breakpoints
-Plug 'rcarriga/nvim-dap-ui' "UI for said debuger
-Plug 'ofirgall/goto-breakpoints.nvim' " Move to breakpoints in code
 
 call plug#end()
 
@@ -108,6 +102,7 @@ set iminsert=0 " Чтобы при старте ввод был на англи�
 set imsearch=0 " Чтобы при старте поиск был на английском, а не русском (start > /)
 " Дополнительно можно добавить:
 inoremap <silent><A-a> <C-^>
+cnoreabbrev git Git
 " Чтобы вместо Ctrl-^ нажимать Alt-a
 highlight lCursor guifg=Cyan guibg=Cyan "Смена цвета курсора
 
