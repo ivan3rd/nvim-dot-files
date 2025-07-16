@@ -1,4 +1,4 @@
- require'ultimate-autopair'.setup{
+ require('ultimate-autopair').setup{
    profile='default',
    pair_map=true, --whether to allow pair insert map
    cmap=true, --cmap stands for cmd-line map

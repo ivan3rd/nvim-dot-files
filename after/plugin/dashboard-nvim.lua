@@ -1,5 +1,3 @@
-
-lua << EOF
 local home = os.getenv('HOME')
 local db = require('dashboard')
 db.setup({
@@ -25,4 +23,3 @@ db.setup({
     },
 })
 
-EOF

@@ -1,4 +1,3 @@
-lua << EOF
 require("toggleterm").setup{
   -- size can be a number or function which is passed the current terminal
   size = function(term)
@@ -40,33 +39,13 @@ require("toggleterm").setup{
 ---- if you only want these mappings for toggle term use term://*toggleterm#* instead
 --vim.cmd('autocmd! ToggleTerm term://* lua set_terminal_keymaps()')
 
-EOF
-"if !exists('g:togglterm')
-  "finish
-"endif
-"let g:toggleterm_terminal_mapping = '<C-t>'
-" or manually...
-"autocmd TermEnter term://*toggleterm#*
-      "\ tnoremap <silent><C-t> <Cmd>exe "ToggleTerm"<CR>
-
-" By applying the mappings this way you can pass a count to your
-" mapping to open a specific window.
-" For example: 2<C-t> will open terminal 2
+vim.cmd([[
 nnoremap <silent><C-t> <Cmd>exe v:count1 . "ToggleTerm direction=horizontal"<CR>
 tnoremap <C-t> <C-\><C-n><Cmd>exe v:count1 . "ToggleTerm direction=horizontal"<CR>
-"nnoremap <silent><leader>t <Cmd>exe v:count1 . "ToggleTerm direction=horizontal"<CR>
-"nnoremap <silent><leader>th <Cmd>exe v:count1 . "ToggleTerm direction=horizontal"<CR>
-"inoremap <silent><leader>th <Esc><Cmd>exe v:count1 . "ToggleTerm direction=horizontal"<CR>
-"nnoremap <silent><leader>tv <Cmd>exe v:count1 . "ToggleTerm direction=vertical"<CR>
-"inoremap <silent><leader>tv <Esc><Cmd>exe v:count1 . "ToggleTerm direction=vertical"<CR>
-"nnoremap <silent><leader>tf <Cmd>exe v:count1 . "ToggleTerm direction=float"<CR>
-"inoremap <silent><leader>tf <Esc><Cmd>exe v:count1 . "ToggleTerm direction=float"<CR>
-"nnoremap <silent><leader>tt <Cmd>exe v:count1 . "ToggleTerm direction=tab"<CR>
-"inoremap <silent><leader>tt <Esc><Cmd>exe v:count1 . "ToggleTerm direction=tab"<CR>
-" terminal mode navigation
 tnoremap <C-q> <C-\><C-n>
 tnoremap <C-h> <C-\><C-n><C-W>h
 tnoremap <C-j> <C-\><C-n><C-W>j
 tnoremap <C-k> <C-\><C-n><C-W>k
 tnoremap <C-l> <C-\><C-n><C-W>l
 
+]])

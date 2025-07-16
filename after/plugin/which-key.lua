@@ -1,4 +1,3 @@
-lua << EOF
 require("which-key").setup {
     marks = true, -- shows a list of your marks on ' and `
     registers = true, -- shows your registers on " in NORMAL or <C-r> in INSERT mode
@@ -15,14 +14,13 @@ require("which-key").setup {
       z = true, -- bindings for folds, spelling and others prefixed with z
       g = true, -- bindings for prefixed with g
     },
-  triggers_blacklist = {
-    -- list of mode / prefixes that should never be hooked by WhichKey
-    -- this is mostly relevant for key maps that start with a native binding
-    -- most people should not need to change this
-    i = { "<Leader>" },
-    v = {  },
-  },
+  --triggers = {
+    ---- list of mode / prefixes that should never be hooked by WhichKey
+    ---- this is mostly relevant for key maps that start with a native binding
+    ---- most people should not need to change this
+    --i = { "<Leader>" },
+    --v = {  },
+  --},
 }
-EOF
 
 

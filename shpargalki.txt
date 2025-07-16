@@ -1,0 +1,97 @@
+" Commands to copy filename into clipboard
+" :let @+ - selecting register @+
+" expand("") - Expand wildcards and the following special keywords in {string}. where:
+% - current file name
+:p - expand to full path
+:t - tail (last path component only)
+
+" relative path
+:let @+ = expand("%")
+
+" full path
+:let @+ = expand("%:p")
+
+" just filename
+:let @+ = expand("%:t")
+
+# Migration from .vim to .lua
+## "set" options
+`set X -> vim.o.X = true`
+`set noX -> vim.o.X = false`
+`set X = "Y" -> vim.o.X = "Y"`
+
+'set' can migrate into:
+'vim.o' - set options |
+'vim.opt' - for setting list style options, like:
+    vim.opt.listchars = {
+      tab = "» ",
+      trail = "·",
+      extends = "›",
+      precedes = "‹",
+      nbsp = "␣",
+    }
+
+## 'g:X global scope variable'
+`let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']` -> `vim.g.qs_highlight_on_keys = ['f', 'F', 't', 'T']`
+'vim.g' - global scope | global editor value
+## Keymappings
+`inoremap <silent><A-a> <C-^>` -> `vim.api.nvim_set_keymap('i', '<A-a>', '<C-^>', { noremap=true, silent=true })`
+
+## Autocommands
+``
+```
+vim.api.nvim_create_autocmd({'FileType'}, {
+  pattern = {'lua', 'html', 'css', 'json', 'javascript', 'typescript', 'vue'},
+  callback = function()
+    vim.api.nvim_buf_set_option(0, 'tabstop', 2)
+    vim.api.nvim_buf_set_option(0, 'shiftwidth', 2)
+    vim.api.nvim_buf_set_option(0, 'softtabstop', 2)
+  end
+})
+```
+vim.api.nvim_create_autocmd({ "FileType" }, {
+    pattern = "rust",
+    callback = function()
+        vim.api.nvim_buf_set_option(0, "tabstop", 4)
+        vim.api.nvim_buf_set_option(0, "shiftwidth", 4)
+        vim.api.nvim_buf_set_option(0, "softtabstop", 4)
+    end
+})
+
+# Builtin function
+All builtin vim functions can be called in lua via
+`line(".")` -> `vim.fn.line(".")`
+
+
+# augroup
+```
+augroup qs_colors
+  autocmd!
+  autocmd ColorScheme * highlight QuickScopePrimary guifg='#afff5f' gui=underline ctermfg=155 cterm=underline
+  autocmd ColorScheme * highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=underline
+augroup END
+```
+->
+```
+vim.api.nvim_create_augroup('qs_colors', {
+  clear = true
+})
+vim.api.nvim_create_autocmd('ColorScheme', {
+  group = 'qs_colors',
+  pattern = '*',
+  callback = function()
+    vim.api.nvim_set_hl(0, "QuickScopePrimary", {
+      fg = '#afff5f',
+      underline = true,
+      ctermfg = 155,
+      cterm = {underline = true},
+    })
+    vim.api.nvim_set_hl(0, "QuickScopeSecondary", {
+      fg = '#5fffff',
+      underline = true,
+      ctermfg = 81,
+      cterm = {underline = true},
+    })
+  end
+})
+```
