@@ -50,12 +50,8 @@ vim.o.cursorcolumn = true
 -- Mapleader. One key to rule them all
 vim.g.mapleader = " "
 
--- Setting closetag
---let g:closetag_filenames = '*.vue,*.html,*.xhtml,*.phtml'
--- vim.o.closetag_filenames = '*.vue,*.html,*.xhtml,*.phtml'
 
 -- Plug setup
---Plug 'alvan/vim-closetag' "Кандидат на удаление
 local Plug = vim.fn['plug#']
 
 vim.call("plug#begin", vim.fn.stdpath("config")..'/plugged')

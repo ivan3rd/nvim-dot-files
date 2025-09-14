@@ -2,7 +2,7 @@ require("toggleterm").setup{
   -- size can be a number or function which is passed the current terminal
   size = function(term)
     if term.direction == "horizontal" then
-      return 15
+      return 10
     elseif term.direction == "vertical" then
       return vim.o.columns * 0.4
     end
@@ -43,9 +43,15 @@ vim.cmd([[
 nnoremap <silent><C-t> <Cmd>exe v:count1 . "ToggleTerm direction=horizontal"<CR>
 tnoremap <C-t> <C-\><C-n><Cmd>exe v:count1 . "ToggleTerm direction=horizontal"<CR>
 tnoremap <C-q> <C-\><C-n>
+"Навигация между окнами"
 tnoremap <C-h> <C-\><C-n><C-W>h
 tnoremap <C-j> <C-\><C-n><C-W>j
 tnoremap <C-k> <C-\><C-n><C-W>k
 tnoremap <C-l> <C-\><C-n><C-W>l
 
+"Изменение размера терминала"
+tnoremap <C-Up> <C-\><C-n>:resize +1<CR>
+tnoremap <C-Down> <C-\><C-n>:resize -1<CR>
+tnoremap <C-Left> <C-\><C-n>:vertical resize +1<CR>
+tnoremap <C-Right> <C-\><C-n>:vertical resize -1<CR>
 ]])
