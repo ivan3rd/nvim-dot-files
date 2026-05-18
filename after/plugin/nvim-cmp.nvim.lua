@@ -73,20 +73,15 @@ cmp.setup.cmdline(':', {
 
 -- Setup lspconfig.
 local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
--- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
--- require('lspconfig')['pylsp'].setup {
---   capabilities = capabilities
--- }
-require('lspconfig')['basedpyright'].setup {
-    capabilities = capabilities
-}
---require('lspconfig')['pyright'].setup {
-    --capabilities = capabilities
---}
-require('lspconfig')['vuels'].setup {
-    capabilities = capabilities
-}
-require('lspconfig')['ts_ls'].setup {
-    capabilities = capabilities
-}
+
+vim.lsp.config('basedpyright', {
+  capabilities = capabilities
+})
+
+vim.lsp.config('vuels', {
+  capabilities = capabilities
+})
+vim.lsp.config('ts_ls', {
+  capabilities = capabilities
+})
 

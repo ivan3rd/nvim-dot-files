@@ -1,4 +1,4 @@
-local lspconfig = require('lspconfig')
+local lspconfig = vim.lsp.config
 
 --local opts = { noremap=true, silent=true }
 --local on_attach = function(client, bufnr)
@@ -33,26 +33,49 @@ vim.lsp.config('*', {
     root_markers = {'.git'}
 })
 
+vim.api.nvim_create_autocmd('LspAttach', {
+  callback = function(args)
+    local bufnr = args.buf
+    local opts = { noremap=true, silent=true, buffer = bufnr }
+    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
+    vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
+    vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+    vim.keymap.set('n', 'gl', vim.diagnostic.setloclist, opts)
+    vim.keymap.set('n', 'gk', vim.diagnostic.open_float, bufopts)
+    vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, bufopts)
+    vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
+    --vim.keymap.set('n', '<space>f', vim.lsp.buf.formatting, bufopts)
+  end,
+})
+
 
 vim.lsp.config('basedpyright', {
-  cmd={ "basedpyright-langserver", "--stdio" },
-  filetypes={ "python" },
+  cmd={ 'basedpyright-langserver', '--stdio' },
+  autostart = true,
+  filetypes={ 'python' },
   root_markers={ "pyproject.toml", "setup.py", "setup.cfg", "requirements.txt", "Pipfile", "pyrightconfig.json", ".git" },
+
+  --before_
   settings={
       python = {
-        pythonPath = './venv',
-        venvPath = './venv',
+        pythonPath = './.venv/bin/python',
+        venvPath = './.venv',
     },
       basedpyright = {
         analysis = {
-          typeCheckingMode = 'basic',
           autoSearchPaths = true,
-          diagnosticMode = "openFilesOnly",
-          useLibraryCodeForTypes = true
+          typeCheckingMode = 'recommended',
+          diagnosticMode = "workspace",
+          useLibraryCodeForTypes = true,
+          include = { '**' },
+          exclude = { '**/node_modules', '**/__pycache__' },
         }
       }
     }
 })
+vim.lsp.enable('basedpyright')
 
 --vim.lsp.config('pylsp', {
     --cmd = { "pylsp" },
@@ -181,13 +204,7 @@ vim.lsp.config('basedpyright', {
 --vim.lsp.enable('ts_ls')
 
 
-local vue_language_server_path = '/usr/lib/node_modules/@vue/language-server'
-local vue_plugin = {
-  name = '@vue/typescript-plugin',
-  location = vue_language_server_path,
-  languages = { 'vue' },
-  configNamespace = 'typescript',
-}
+
 vim.lsp.config('vtsls', {
   cmd = {'vtsls', '--stdio'},
   init_options = { hostInfo = 'neovim' },
@@ -200,10 +217,31 @@ vim.lsp.config('vtsls', {
       },
     },
   },
-  filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
+  filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx", 'vue' },
+  root_dir = function(bufnr, on_dir)
+    -- The project root is where the LSP can be started from
+    -- As stated in the documentation above, this LSP supports monorepos and simple projects.
+    -- We select then from the project root, which is identified by the presence of a package
+    -- manager lock file.
+    local root_markers = { 'tsconfig.json', 'jsconfig.json', 'package-lock.json', 'yarn.lock', 'pnpm-lock.yaml', 'bun.lockb', 'bun.lock' }
+    -- Give the root markers equal priority by wrapping them in a table
+    root_markers = vim.fn.has('nvim-0.11.3') == 1 and { root_markers, { '.git' } }
+      or vim.list_extend(root_markers, { '.git' })
+    -- We fallback to the current working directory if no project root is found
+    local project_root = vim.fs.root(bufnr, root_markers) or vim.fn.getcwd()
+
+    on_dir(project_root)
+  end,
 })
 vim.lsp.enable('vtsls')
 
+local vue_language_server_path = '/usr/lib/node_modules/@vue/language-server'
+local vue_plugin = {
+  name = '@vue/typescript-plugin',
+  location = vue_language_server_path,
+  languages = { 'vue' },
+  configNamespace = 'typescript',
+}
 
 --local lsp_attach_group = vim.api.nvim_create_augroup('UserLspAttach', {})
 vim.lsp.enable('vue_ls')
@@ -257,19 +295,17 @@ vim.lsp.config('vue_ls', {
     --client.handlers['tsserver/request'] = typescriptHandler
   --end,
 })
+local util = lspconfig.util
 
-
-vim.api.nvim_create_autocmd('LspAttach', {
-  callback = function(args)
-    local bufnr = args.buf
-    local opts = { noremap=true, silent=true, buffer = bufnr }
-    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
-    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
-    vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
-    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
-    vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-    vim.keymap.set('n', 'gl', vim.diagnostic.setloclist, opts)
-    vim.keymap.set('n', 'gk', vim.diagnostic.open_float, bufopts)
-    --vim.keymap.set('n', '<space>f', vim.lsp.buf.formatting, bufopts)
+vim.lsp.config('csharp_ls', {
+  cmd={'csharp-ls'},
+  root_dir = function(bufnr, on_dir)
+    local fname = vim.api.nvim_buf_get_name(bufnr)
+    on_dir(util.root_pattern '*.sln'(fname) or util.root_pattern '*.slnx'(fname) or util.root_pattern '*.csproj'(fname))
   end,
+  filetypes={'cs'},
+  init_options={AutomaticWorkspaceInit = true},
 })
+vim.lsp.enable('csharp_ls')
+
+

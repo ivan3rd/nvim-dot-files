@@ -107,7 +107,7 @@ keymap.set("n", "<space>e", require("nvim-tree.api").tree.toggle, {
   desc = "toggle nvim-tree",
 })
 
-keymap.set("n", "<space>n", require("nvim-tree.api").tree.find_file, {
+keymap.set("n", "<space>n", function() require("nvim-tree.api").tree.open({find_file=true}) end, {
   silent = true,
   desc = "find file in tree",
 })
